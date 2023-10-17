@@ -19,7 +19,7 @@ router.post("/api/postJobs", postJobs);
 router.get("/api/getAllJobs", getAllPosts);
 router.post("/api/getProfileData", getProfileData);
 router.patch("/api/updateProfile", updateProfile);
-router.get("/", (res,res) =>{
+router.get("/", (req,res) =>{
   res.json("hellow")
 });
 
