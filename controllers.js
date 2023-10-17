@@ -112,11 +112,12 @@ const getProfileData = async (req, res) => {
 
 //update Profile
 const updateProfile = async (req, res) => {
-  console.log(req.body.u_additional);
-  const { email } = req.body.u_email;
+  console.log(req.body);
+  const { email } = req.body.email;
   const { full_name, address, phone_no } = req.body.u_additional;
 
   const data = {
+    u_email:email,
     u_additional: req.body.u_additional,
   };
 
