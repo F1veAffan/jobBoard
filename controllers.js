@@ -99,15 +99,15 @@ const getProfileData = async (req, res) => {
   const { email } = await JWT.verify(cookie, process.env.JWT_SECRET);
   const data = await UserModel.findOne({ u_email: email });
 
-  const profilInfo ={
-    email : data.u_email,
+  const profilInfo = {
+    email: data.u_email,
     name: data.u_additional.full_name,
     address: data.u_additional.address,
-    phone_no: data.u_additional.phone_no
-  }
+    phone_no: data.u_additional.phone_no,
+  };
 
   console.log(profilInfo);
-  res.json(profilInfo)
+  res.json(profilInfo);
 };
 
 //update Profile
@@ -117,15 +117,14 @@ const updateProfile = async (req, res) => {
   const { full_name, address, phone_no } = req.body.u_additional;
 
   const data = {
-    u_email:email,
+    u_email: email,
     u_additional: req.body.u_additional,
   };
 
   console.log(data);
   const result = await UserModel.updateOne(email, data);
+  if (result) res.json("ok");
   console.log(result);
-
-  res.json("ok")
 };
 
 module.exports = {
