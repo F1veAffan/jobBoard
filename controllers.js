@@ -124,6 +124,8 @@ const updateProfile = async (req, res) => {
   console.log(data);
   const result = await UserModel.updateOne(email, data);
   console.log(result);
+
+  res.json({ok})
 };
 
 module.exports = {
