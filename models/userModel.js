@@ -10,15 +10,19 @@ const UserSchema = mongoose.Schema({
     required: true,
   },
   u_additional: {
-    full_name: {
+    type: Object,
+    default: {full_name: {
       type: String,
+      default: "",
     },
     address: {
       type: String,
+      default: "",
     },
     phone_no: {
       type: String,
-    },
+      default: "",
+    }}
   },
 });
 
