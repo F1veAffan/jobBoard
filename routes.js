@@ -19,5 +19,8 @@ router.post("/api/postJobs", postJobs);
 router.get("/api/getAllJobs", getAllPosts);
 router.post("/api/getProfileData", getProfileData);
 router.patch("/api/updateProfile", updateProfile);
+router.get("/", (res,res) =>{
+  res.json("hellow")
+});
 
 module.exports = router;
