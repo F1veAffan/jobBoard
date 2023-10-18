@@ -113,7 +113,7 @@ const getProfileData = async (req, res) => {
 //update Profile
 const updateProfile = async (req, res) => {
   console.log(req.body);
-  // const { email } = req.body.email;
+  const { cookie } = req.body;
   const { u_email, u_name, u_address, u_phno } = req.body.data;
 
   const data = {
@@ -123,10 +123,13 @@ const updateProfile = async (req, res) => {
     u_phno: u_phno,
   };
 
+  const userData  = JWT.verify(cookie, process.env.JWT_SECRET) 
+  console.log(userData.email);
   console.log(data);
-  const result = await UserModel.updateOne({u_email: u_email}, data);
-  if (result) res.json("ok");
-  console.log(result);
+
+  const result = await UserModel.updateOne({u_email: userData.email}, data);
+  if (result.acknowledged) res.json(result.acknowledged);
+  console.log(result.acknowledged);
 };
 
 module.exports = {
