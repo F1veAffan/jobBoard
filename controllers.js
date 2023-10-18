@@ -114,7 +114,7 @@ const getProfileData = async (req, res) => {
 const updateProfile = async (req, res) => {
   console.log(req.body);
   // const { email } = req.body.email;
-  const { u_email, u_name, u_address, u_phno } = req.body;
+  const { u_email, u_name, u_address, u_phno } = req.body.data;
 
   const data = {
     u_email: u_email,
@@ -124,7 +124,7 @@ const updateProfile = async (req, res) => {
   };
 
   console.log(data);
-  const result = await UserModel.updateOne(u_email, data);
+  const result = await UserModel.updateOne({u_email: u_email}, data);
   if (result) res.json("ok");
   console.log(result);
 };
