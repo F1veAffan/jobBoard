@@ -9,15 +9,15 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  full_name: {
+  u_name: {
     type: String,
     default: "",
   },
-  address: {
+  u_address: {
     type: String,
     default: "",
   },
-  phone_no: {
+  u_phno: {
     type: String,
     default: "",
   },

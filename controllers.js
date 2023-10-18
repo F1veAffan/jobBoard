@@ -101,9 +101,9 @@ const getProfileData = async (req, res) => {
 
   const profilInfo = {
     email: data.u_email,
-    name: data.u_additional.full_name,
-    address: data.u_additional.address,
-    phone_no: data.u_additional.phone_no,
+    name: data.u_name,
+    address: data.u_address,
+    phone_no: data.u_phno,
   };
 
   console.log(profilInfo);
@@ -113,16 +113,18 @@ const getProfileData = async (req, res) => {
 //update Profile
 const updateProfile = async (req, res) => {
   console.log(req.body);
-  const { email } = req.body.email;
-  const { full_name, address, phone_no } = req.body.u_additional;
+  // const { email } = req.body.email;
+  const { u_email, u_name, u_address, u_phno } = req.body;
 
   const data = {
-    u_email: email,
-    u_additional: req.body.u_additional,
+    u_email: u_email,
+    u_name: u_name,
+    u_address: u_address,
+    u_phno: u_phno,
   };
 
   console.log(data);
-  const result = await UserModel.updateOne(email, data);
+  const result = await UserModel.updateOne(u_email, data);
   if (result) res.json("ok");
   console.log(result);
 };
