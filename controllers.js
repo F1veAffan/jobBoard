@@ -129,22 +129,17 @@ const updateProfile = async (req, res) => {
 const updatePassword = async (req, res) => {
   const { cookie, oldPassword } = req.body;
 
-  console.log(cookie);
-  console.log(oldPassword);
-
   const { data } = req.body;
-  console.log(data);
 
   const userData = JWT.verify(cookie, process.env.JWT_SECRET);
-  console.log(userData);
 
   const findData = await UserModel.findOne({ u_email: userData.email });
-  console.log(findData);
 
   const checkOldPassword = await bcrypt.compare(
     oldPassword,
     findData.u_password
   );
+
   console.log(checkOldPassword);
 
   if (checkOldPassword) {
@@ -161,6 +156,9 @@ const updatePassword = async (req, res) => {
 
     console.log(result);
     if (result.modifiedCount === 1) res.json(result.modifiedCount);
+    else res.json("Check your passwords");
+  } else {
+    res.json("Check your passwords");
   }
 };
 
