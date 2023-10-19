@@ -112,23 +112,33 @@ const getProfileData = async (req, res) => {
 
 //update Profile
 const updateProfile = async (req, res) => {
-  console.log(req.body);
   const { cookie } = req.body;
-  const { u_name, u_address, u_phno } = req.body.data;
+  const userData = JWT.verify(cookie, process.env.JWT_SECRET);
 
-  // const data = {
-  //   u_name: u_name,
-  //   u_address: u_address,
-  //   u_phno: u_phno,
-  // };
-
-  const userData  = JWT.verify(cookie, process.env.JWT_SECRET) 
   console.log(userData.email);
   console.log(req.body.data);
 
-  const result = await UserModel.updateOne({u_email: userData.email}, req.body.data);
-  if (result.acknowledged) res.json(result.acknowledged);
-  console.log(result.acknowledged);
+  if (req.body.password) {
+    const findData = UserModel.findOne({ u_email: userData.email });
+
+    if (await bcrypt.compare(red.body.oldPasword, findData.password)) {
+      const result = await UserModel.updateOne(
+        { u_email: userData.email },
+        req.body.data
+      );
+      console.log(result);
+    }
+  } else {
+    
+    console.log(req.body);
+
+    const result = await UserModel.updateOne(
+      { u_email: userData.email },
+      req.body.data
+    );
+    if (result.acknowledged) res.json(result.acknowledged);
+    console.log(result.acknowledged);
+  }
 };
 
 module.exports = {
