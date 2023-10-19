@@ -10,6 +10,7 @@ const {
   getAllPosts,
   updateProfile,
   getProfileData,
+  updatePassword,
 } = require("./controllers");
 
 router.post("/api/userLogin", userLogin);
@@ -19,8 +20,9 @@ router.post("/api/postJobs", postJobs);
 router.get("/api/getAllJobs", getAllPosts);
 router.post("/api/getProfileData", getProfileData);
 router.patch("/api/updateProfile", updateProfile);
-router.get("/", (req,res) =>{
-  res.json("hellow")
+router.patch("/api/updatePassword", updatePassword);
+router.get("/", (req, res) => {
+  res.json("hellow");
 });
 
 module.exports = router;

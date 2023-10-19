@@ -110,45 +110,57 @@ const getProfileData = async (req, res) => {
   res.json(profilInfo);
 };
 
-//update Profile and apssword
+//update Profile
 const updateProfile = async (req, res) => {
   const { cookie } = req.body;
-  const userData = JWT.verify(cookie, process.env.JWT_SECRET);
 
   console.log(userData.email);
   console.log(req.body.data);
+  console.log(req.body);
 
-  if (req.body.password) {
+  const result = await UserModel.updateOne(
+    { u_email: userData.email },
+    req.body.data
+  );
+  if (result.acknowledged === true) res.json(result.acknowledged);
+  console.log(result.acknowledged);
+};
 
+const updatePassword = async (req, res) => {
+  const { cookie, oldPassword } = req.body;
 
-    const findData = UserModel.findOne({ u_email: userData.email });
+  console.log(cookie);
+  console.log(oldPassword);
 
-    if (await bcrypt.compare(red.body.oldPasword, findData.password)) {
+  const { data } = req.body;
+  console.log(data);
 
-      const hashedPassword = await bcrypt.hash(req.body.password, 9)
-      console.log(hashedPassword);
+  const userData = JWT.verify(cookie, process.env.JWT_SECRET);
+  console.log(userData);
 
-      const data = {
-        u_password: hashedPassword
-      }
-      console.log(data);
+  const findData = await UserModel.findOne({ u_email: userData.email });
+  console.log(findData);
 
-      const result = await UserModel.updateOne(
-        { u_email: userData.email },
-        data
-      );
-      if (result.acknowledged === true) res.json(result.acknowledged);
-    }
-  } else if(!req.body.password){
+  const checkOldPassword = await bcrypt.compare(
+    oldPassword,
+    findData.u_password
+  );
+  console.log(checkOldPassword);
 
-    console.log(req.body);
+  if (checkOldPassword) {
+    const hashedPassword = await bcrypt.hash(data.u_password, 9);
+    console.log(hashedPassword);
 
-    const result = await UserModel.updateOne(
-      { u_email: userData.email },
-      req.body.data
-    );
-    if (result.acknowledged === true) res.json(result.acknowledged);
-    console.log(result.acknowledged);
+    const storeData = {
+      u_password: hashedPassword,
+    };
+
+    console.log(storeData);
+
+    const result = await UserModel.updateOne(userData.u_email, storeData);
+
+    console.log(result);
+    if (result.modifiedCount === 1) res.json(result.modifiedCount);
   }
 };
 
@@ -160,4 +172,5 @@ module.exports = {
   getAllPosts,
   getProfileData,
   updateProfile,
+  updatePassword,
 };
