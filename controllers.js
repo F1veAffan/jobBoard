@@ -126,6 +126,7 @@ const updateProfile = async (req, res) => {
     if (await bcrypt.compare(red.body.oldPasword, findData.password)) {
 
       const hashedPassword = await bcrypt.hash(req.body.password, 9)
+      console.log(hashedPassword);
 
       const data = {
         u_password: hashedPassword
