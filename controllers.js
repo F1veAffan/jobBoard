@@ -110,7 +110,7 @@ const getProfileData = async (req, res) => {
   res.json(profilInfo);
 };
 
-//update Profile
+//update Profile and apssword
 const updateProfile = async (req, res) => {
   const { cookie } = req.body;
   const userData = JWT.verify(cookie, process.env.JWT_SECRET);
@@ -119,17 +119,26 @@ const updateProfile = async (req, res) => {
   console.log(req.body.data);
 
   if (req.body.password) {
+
+
     const findData = UserModel.findOne({ u_email: userData.email });
 
     if (await bcrypt.compare(red.body.oldPasword, findData.password)) {
+
+      const hashedPassword = await bcrypt.hash(req.body.passwor, 9)
+
+      const data = {
+        u_password: hashedPassword
+      }
+
       const result = await UserModel.updateOne(
         { u_email: userData.email },
-        req.body.data
+        data
       );
       console.log(result);
     }
   } else {
-    
+
     console.log(req.body);
 
     const result = await UserModel.updateOne(
