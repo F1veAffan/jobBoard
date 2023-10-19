@@ -125,7 +125,7 @@ const updateProfile = async (req, res) => {
 
     if (await bcrypt.compare(red.body.oldPasword, findData.password)) {
 
-      const hashedPassword = await bcrypt.hash(req.body.passwor, 9)
+      const hashedPassword = await bcrypt.hash(req.body.password, 9)
 
       const data = {
         u_password: hashedPassword
@@ -135,7 +135,7 @@ const updateProfile = async (req, res) => {
         { u_email: userData.email },
         data
       );
-      console.log(result);
+      if (result.acknowledged === true) res.json(result.acknowledged);
     }
   } else {
 
@@ -145,7 +145,7 @@ const updateProfile = async (req, res) => {
       { u_email: userData.email },
       req.body.data
     );
-    if (result.acknowledged) res.json(result.acknowledged);
+    if (result.acknowledged === true) res.json(result.acknowledged);
     console.log(result.acknowledged);
   }
 };
