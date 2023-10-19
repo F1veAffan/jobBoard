@@ -131,6 +131,7 @@ const updateProfile = async (req, res) => {
       const data = {
         u_password: hashedPassword
       }
+      console.log(data);
 
       const result = await UserModel.updateOne(
         { u_email: userData.email },
@@ -138,7 +139,7 @@ const updateProfile = async (req, res) => {
       );
       if (result.acknowledged === true) res.json(result.acknowledged);
     }
-  } else {
+  } else if(!req.body.password){
 
     console.log(req.body);
 
