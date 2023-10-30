@@ -116,10 +116,15 @@ const updateProfile = async (req, res) => {
   console.log(req.body.data);
   console.log(req.body);
 
+  const userData = await JWT.verify(cookie, process.env.JWT_SECRET)
+
+  console.log(userData);
+
   const result = await UserModel.updateOne(
     { u_email: userData.email },
     req.body.data
   );
+  console.log(result);
   if (result.acknowledged === true) res.json(result.acknowledged);
   console.log(result.acknowledged);
 };
