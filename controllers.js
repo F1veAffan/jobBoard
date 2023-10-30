@@ -113,8 +113,6 @@ const getProfileData = async (req, res) => {
 //update Profile
 const updateProfile = async (req, res) => {
   const { cookie } = req.body;
-
-  console.log(userData.email);
   console.log(req.body.data);
   console.log(req.body);
 
